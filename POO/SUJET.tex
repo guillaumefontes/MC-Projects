@@ -1,0 +1,402 @@
+%----------------------------------------------%
+%            Package Indispensables            %
+%----------------------------------------------% 
+\documentclass[a4paper]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage[french]{babel} 
+\usepackage[francais,bloc,ensemble,nowatermark,outsidebox]{automultiplechoice} % Pour utiliser AMC
+\usepackage{multicol}% pour pouvoir mettre les réponses sur plusieurs colonnes
+%\usepackage{listings}
+
+%----------------------------------------------%
+%          Options de mise en page             %
+%----------------------------------------------%
+% Espacemements - marges
+\geometry{includehead,includefoot,left=60pt,right=60pt,top=40pt,bottom=50pt,headsep=30pt,footskip=20pt} 
+
+% Espacemements - paragraphes
+\setlength{\parskip}{20pt} % espace entre 2 paragraphes
+\setlength\parindent{0pt}  % indentation en début de paragraphe
+
+% Espacemements - questionnaire
+\AMCinterIrep=3pt    % espace entre chaques réponses
+\AMCinterBquest=0pt  % espace entre chaques questions (+ espace entre paragraphes)
+\setlength{\multicolsep}{5pt} % espace entre questions et réponses
+
+% Espacemements - formulaire
+\AMCformHSpace=3pt  % espace entre chaques réponses 
+\AMCformVSpace=-7pt  % espace entre chaques questions (+ espace entre paragraphes)
+
+% Espacemements - figures
+\setlength{\intextsep}{20pt plus 2pt minus 2pt}    % espace sup et inf quand dans le texte 
+\setlength{\textfloatsep}{20pt plus 2pt minus 2pt} % espace sup et inf quand hors du texte
+\setlength{\abovecaptionskip}{5pt} % espace au dessus d'une légende
+\setlength{\belowcaptionskip}{0pt} % espace au dessous d'une légende
+
+% Mise en forme des titres de section
+\usepackage{titlesec} 
+\renewcommand\thesection{\Roman{section}}        % Police section
+\renewcommand\thesubsection{\arabic{subsection}} % Police sous-section
+\titleformat{\section}[block]{\Large\scshape}{\thesection.}{1em}{} % Style de la section
+\titleformat{\subsection}[block]{\normalfont\bfseries}{\thesection.\thesubsection.}{1em}{} % Style de la sous-section
+
+\AMCboxStyle{shape=none} % style des cases dans le questionaire
+\def\AMCchoiceLabel#1{\Alph{#1})} % numéro des cases dans le questionaire
+% pour le style et numéro des case dans le formulaire de réponses, voir tous en bas
+
+
+%----------------------------------------------%
+%             Packages Optionels               %
+%----------------------------------------------% 
+\usepackage{enumitem} % Customized lists
+\setlist[itemize]{noitemsep} % Make itemize lists more compact
+\usepackage[font=footnotesize,labelfont=bf,textfont=it,justification=justified,singlelinecheck=false,position=below]{caption}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{mathtools}
+\usepackage{tabularx}
+\usepackage{graphicx} % gère les figures 
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{pdfpages} % on peut inclure des pages pdf
+\usepackage{etoolbox} 
+\usepackage{xspace} % xspace so that spaces after commands are handled correctly
+\raggedbottom % tout l'extra spacing se fait en bas de page
+\pdfpageattr{/Group << /S /Transparency /I true /CS /DeviceRGB>>} % enève la transparence pour qu'il n'y ai pas de problème d'affichage ou d'impression (texte plus gras si image avec fond transparent sur la page)
+\usepackage{chngcntr}
+\usepackage{blindtext}
+\usepackage{listings}
+
+%\AMCsetFoot{copie \AMCStudentNumber page \thepage}
+% le code en haut de la page = copie/page/page totale
+
+
+%----------------------------------------------%
+%                   Barème                     %
+%----------------------------------------------% 
+\baremeDefautS{b=6,m=-3,e=0,v=0} % barème questions simples
+\baremeDefautM{b=1,m=-0.5,e=0,v=0} % barème questions multiples
+% b = points pour bonne rép
+% m = points pour mauvaise rép
+% e = note affectée si plusieurs cases cochées pour une question simple
+% v = La note affectée en cas de non-réponse (aucune case n’est cochée)
+% mz = ”maximum ou zéro” : doit cocher toutes et uniquement les bonnes réponses pour avoir la note mz sinon, elle sera nulle.
+
+
+%------ Pour afficher éventuellement des corrections
+\newif\ifcorrige
+\corrigetrue
+
+
+%----------------------------------------------%
+%                  Document                    %
+%----------------------------------------------% 
+\begin{document}
+
+\AMCrandomseed{10} % choisir entre 1 et 4194303 >> définit le mélange des questions
+
+% Style des questions
+\def\AMCbeginQuestion#1#2{\par\noindent{Question #1} #2\vspace{3pt} \hrule \vspace{8pt}}
+%\def\multiSymbole{} % symbole signifiant qu'il y a plusieurs réponses possibles
+% Style formulaire
+\def\AMCformQuestion#1{Question #1 :}
+\def\AMCotextReserved{\emph{Réservé à l'enseignant}} % texte pour les questions ouvertes
+
+\exemplaire{1}{ % nombre de copies différentes
+
+%----------------------------------------------%
+%                   En-tête                    %
+%----------------------------------------------%
+\begin{center}
+   {\huge Examen de Programmation Orientée Objet } \\
+   \vspace{10pt}
+   Semestre 8 - Département 3EA\\
+   Enseignants : G. Fontès - G. Gateau - J. Regnier \\
+   Date: 16 Janvier 2026
+\end{center}
+
+
+\begin{center}\fbox{\fbox{\parbox{0.95\textwidth}{
+\begin{itemize}[label=\textbullet,font=\footnotesize, leftmargin=15pt]
+\item En haut à droite de vos feuille : verifiez que le premier des trois numéros soit toujours le même.
+\item Les réponses aux questions sont à donner EXCLUSIVEMENT sur la feuille de réponses.
+\item Les cases doivent être entièrement noircies avec un stylo noir ou bleu.
+\item En cas d'erreur, appliquer du blanc (mais ne surtout pas redessiner la case).
+\item Les questions faisant apparaître le symbole \multiSymbole{} peuvent
+présenter zéro, une ou plusieurs bonnes réponses. Les autres ont une
+unique bonne réponse.
+\item Une bonne réponse vaut 1 point, une mauvaise réponse vaut -0,5.
+\end{itemize}}}}
+\end{center}
+
+%----------------------------------------------%
+%                 Questions                    %
+%----------------------------------------------%
+
+
+\begin{questionmult}{Question1}
+    La programmation orientée objet se caractérise typiquement par :
+        \begin{reponses}
+            \bonne{la manipulation de briques logicielles (independantes ou non) qui modélisent des composants du monde réel et qui ont des relations entre elles}
+            \bonne{la création et l'interaction d'objets qui stockent à la fois des données et des algorithmes}
+            \mauvaise{des suites d'instructions qui font appel à des fonctions ou procédures}
+            \mauvaise{des modules indépendants}
+        \end{reponses}
+\end{questionmult}
+
+\begin{question}{Question2}
+    En POO, comment appelle-t-on les données d'une part et les procédures d'autre part qui sont stockées dans un objet ?
+    \begin{reponses}
+        \bonne{Les attributs et les méthodes}
+        \mauvaise{Les variables et les fonctions}
+        \mauvaise{Les propriétés et les actions}
+        \mauvaise{Les données et les procédures}
+    \end{reponses}
+\end{question}
+
+
+\begin{question}{Question3}
+Un avantage de la programmation orientée objet est :
+	\begin{multicols}{2}
+	\begin{reponses}
+		\bonne{Une réutilisation plus facile du code}
+		\mauvaise{Une exécution plus rapide}
+		\mauvaise{Moins de mémoire utilisée}
+		\mauvaise{Une compilation plus simple}
+	\end{reponses}
+	\end{multicols}
+\end{question}
+
+
+\begin{question}{Question4}
+Quel est l'un des inconvénients potentiels de la programmation orientée objet ?
+	\begin{multicols}{2}
+	\begin{reponses}
+		\bonne{Complexité accrue pour les petits projets}
+		\mauvaise{Manque de flexibilité}
+		\mauvaise{Impossibilité de créer des interfaces graphiques}
+		\mauvaise{Pas adapté au travail en équipe}
+	\end{reponses}
+	\end{multicols}
+\end{question}
+
+
+\begin{question}{Question5}
+Que définissent les attributs d'un objet ?
+	\begin{multicols}{2}
+	\begin{reponses}
+		\bonne{l'état d'un objet, qui peut varier au cours du temps}
+		\mauvaise{les actions que peut faire l'objet}
+		\mauvaise{l'état d'un objet, qui ne peut pas varier au cours du temps}
+	\end{reponses}
+	\end{multicols}
+\end{question}
+
+\begin{question}{Question6}
+Que définissent les méthodes d'un objet ?
+	\begin{multicols}{2}
+	\begin{reponses}
+		\bonne{les actions que peut faire l'objet}
+		\mauvaise{l'état d'un objet, qui peut varier au cours du temps}
+		\mauvaise{l'état d'un objet, qui ne peut pas varier au cours du temps}
+	\end{reponses}
+	\end{multicols}
+\end{question}
+
+\begin{question}{Question7}
+On considère les notions de classe et d'objet. Quelle est la proposition correcte ?
+	\begin{reponses}
+		\bonne{Une classe est la description d'un ensemble d'objets qui partagent les mêmes objets et méthodes}
+		\mauvaise{Un objet est une abstraction de classe : il définit le concept de classes en général.}
+		\mauvaise{Un objet permet de préciser une conception de classe en définissant explicitement les attributs et les méthodes des classe.}
+		\mauvaise{Une classe est une instanciation d'un objet}
+	\end{reponses}
+\end{question}
+
+
+\begin{question}{Question8}
+Considérons une application de gestion de locations de vélos. On souhaite pouvoir modéliser plusieurs types de vélos (vélo de de ville, VTT, vélo enfant) qui possèdent à la fois des propriétés communes et des propriétés particulières à chaque type de vélo. Quelle est la meilleure proposition ?
+    \begin{reponses}
+        \bonne{On peut créer une classe mère "Vélo" qui contient les propriétés communes et des classes filles "VéloDeVille", "VTT", "VéloEnfant" qui contiennent les propriétés particulières : il s'agit d'un mécanismes d'héritage}
+        \mauvaise{On crée une classe "Vélo" pour chaque type de vélo}
+        \mauvaise{On crée une classe "Vélo" qui contient toutes les propriétés}
+        \mauvaise{On crée des classes "VéloDeVille", "VTT", "VéloEnfant" qui contiennent les propriétés particulières et qui sont aussi associées à une classe "Vélo" qui contient les propriétés communes}
+    \end{reponses}
+\end{question}
+
+\begin{questionmult}{Question9}
+    Dans un mécanisme d'héritage, quelles sont les propositions exactes ?
+        \begin{reponses}
+            \bonne{La classe fille hérite des attributs et des méthodes de la classe mère}
+            \bonne{La classe mère peut contenir des méthodes virtuelles qui seront définies dans les classes filles}
+            \mauvaise{La classe fille devient indépendante de la classe mère}
+            \mauvaise{La classe fille ne peut pas posséder plus de méthodes que la classe mère}
+        \end{reponses}
+\end{questionmult}
+
+\begin{questionmult}{Question10}
+    \begin{reponses}
+        \bonne{livre dérive de livre numérique}
+        \mauvaise{livre numerique est une classe fille de livre}
+        \mauvaise{livre numerique est composé d’un livre}
+        \mauvaise{livre numerique hérite de livre}
+    \end{reponses}
+\end{questionmult}
+
+\begin{question}{Question11}
+Considérons la composition en programmation orientée objet. La composition permet :
+    \begin{reponses}
+        \bonne{d'assembler des objets pour créer des objets plus complexes}
+        \mauvaise{de définir une relation "est-un" entre les classes}
+        \mauvaise{de créer des classes filles à partir de classes mères}
+        \mauvaise{de définir des méthodes abstraites dans une classe}
+    \end{reponses}
+\end{question}
+
+\begin{questionmult}{Question12}
+    En C++, si l'on définit une classe de la manière suivante :
+     class A \textbraceleft
+     protected : int v1 ;
+     public : A() ;
+     \textbraceright
+    \begin{reponses}
+        \bonne{la variable v1 est modifiable sans condition en dehors de
+l'objet}
+        \mauvaise{la variable v1 est modifiable à condition d'être dans
+l'objet}
+        \mauvaise{la variable v1 ne pourra jamais être modifiée }
+        \mauvaise{la variable v1 est modifiable en dehors de l'objet
+avec une méthode publique}
+    \end{reponses}
+\end{questionmult}
+
+
+\begin{question}{Question13}
+Le polymorphisme en POO :
+    \begin{reponses}
+        \bonne{S'applique uniquement avec des classes construites par
+héritage}
+        \mauvaise{S'applique uniquement avec des classes construites par
+composition}
+        \mauvaise{S'applique uniquement avec des classes ne comportant
+ni héritage ni composition}
+    \end{reponses}
+\end{question}
+
+
+\begin{question}{Question14}
+Considérons la hiérarchie de classes ci-dessous.\\
+\\
+class Personnage\{\\
+protected:\\
+...\\
+public:\\
+\hspace{1cm}
+Personnage();\\
+virtual void QuiSuisJe() = 0;\\
+\};\\
+class Magicien: public Personnage\{\\
+protected:\\
+...\\
+public:\\
+Magicien();\\
+void QuiSuisJe();\\
+\};\\
+
+
+Lequel des programmes principaux ci-dessous proposés utilise correctement la création dynamique d’un objet et la notion de polymorphisme.
+    \begin{reponses}
+        \bonne{
+        int main () \{\\
+	Personnage* = new Magicien();\\
+	Personnage->quiSuisJe();\\
+	\};
+	}
+        \mauvaise{int main () \{\\
+	Magicien* = new Magicien();\\
+	Personnage->quiSuisJe();\\
+	\};
+	}
+        \mauvaise{int main () \{\\
+	Personnage* = new Magicien();\\
+	Magicien->quiSuisJe();\\
+	\};
+	}
+    \end{reponses}
+\end{question}
+
+\begin{question}{Question15}
+On considère le diagramme de classe ci-dessous figure ci-après. Donner la description des classes à implémenter
+dans un fichier .h. (Il vous est conseillé d’écrire le fichier .h par vous-même avant de choisir la bonne réponse
+et de choisir ensuite une des propositions présentées figure ci-après.
+    \begin{reponses}
+        \mauvaise{code3.h}
+        \bonne{code1.h}
+        \mauvaise{code2.h}
+    \end{reponses}
+\end{question}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.5\textwidth]{Figures/diag_classe_vehicule.png}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.99\textwidth]{Figures/proposition_codes_h.png}
+\end{figure}
+
+
+\begin{question}{Question16}
+On souhaite développer un logiciel simple permettant de gérer une bibliothèque universitaire. La bibliothèque met à disposition des documents qui pourront être empruntés.
+La "Bibliothèque" est caractérisée par un nom et une collection de documents.
+Un "Document" possède un identifiant, un titre, une année de publication.
+Il existe plusieurs types de documents : un "Livre" (caractérisé par un nombre de pages), une "Revue" (caractérisée par un numéro et une périodicité) et un "DVD" (caractérisé par une durée en minutes).
+D’après les descriptions précédentes, donner le diagramme de classe UML (sur la feuille réponse) pour cette future application logicielle. Vous représenterez les classes et les différentes relations possibles (héritage, composition, association...).
+\AMCOpen{lines=1, dots=false, lineheight=18cm}{\mauvaise[F]{F}\bareme{0}\mauvaise[P]{P}\bareme{1}\mauvaise[B]{B}\bareme{2}\bonne[TB]{TB}\bareme{3}}
+\def\AMCotextGoto{\par{\bf\emph{Répondez sur la feuille de réponses.}}}
+\end{question}
+
+
+
+
+\begin{question}{Question17}
+On souhaite maintenant prendre en compte les adhérents de la bibliothèque. Un "Adhérent" est caractérisé par un numéro d’adhérent et un nom. Un adhérent peut emprunter un ou plusieurs documents, et un document peut être emprunté par au plus un adhérent à la fois. Complétez le diagramme de classes réalisé à la question précédente afin de faire apparaître la classe "Adherent" et de représenter la relation d’association entre les adhérents et les documents.
+
+\AMCOpen{lines=1, dots=false, lineheight=0cm, framerulecol=white}{\mauvaise[F]{F}\bareme{0}\mauvaise[P]{P}\bareme{1}\mauvaise[B]{B}\bareme{2}\bonne[TB]{TB}\bareme{3}}
+\def\AMCotextGoto{\par{\bf\emph{Répondez sur la feuille de réponses.}}}
+\end{question}
+
+\ifcorrige
+\textbf{Correction Questions 16 et 17}
+
+\includegraphics[width=0.8\textwidth]{Figures/solution_diag_classe_exam_poo.png}
+\fi
+
+%----------------------------------------------%
+%          Formulaire de réponses              %
+%----------------------------------------------%
+\AMCcleardoublepage
+\AMCdebutFormulaire
+
+\begin{center}
+  {\huge Feuille de réponses} \\
+  \vspace{10pt}
+Les réponses aux questions sont à donner EXCLUSIVEMENT sur cette feuille\\
+\end{center}
+
+\hfill\champnom{
+\fbox{\parbox{0.4\textwidth}{
+\vspace*{15pt}
+Nom :\dotfill 
+\vspace*{10pt}
+}}}
+
+\AMCboxStyle{shape=square} % style des cases dans le formulaire
+\def\AMCchoiceLabel##1{\Alph{##1}} % numéro des cases dans le questionaire
+\formulaire    
+
+\AMCcleardoublepage
+}
+
+\end{document}

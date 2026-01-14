@@ -1,0 +1,11 @@
+anonymous/
+data/
+cr
+data/
+Figures
+scans/
+*.amc
+*.aux
+*.log
+*.xy
+*.xml
