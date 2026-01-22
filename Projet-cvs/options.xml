@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <project>
   <add_corrected></add_corrected>
-  <after_export>file</after_export>
-  <allocate_ids>0</allocate_ids>
+  <after_export></after_export>
+  <allocate_ids></allocate_ids>
   <annotatedemail>
     <email_subject>Exam result</email_subject>
     <email_text>Please find enclosed your annotated completed answer sheet.
@@ -12,7 +12,7 @@ Regards.</email_text>
   <annote_position>cases</annote_position>
   <annote_rtl></annote_rtl>
   <assoc_code></assoc_code>
-  <auto_capture_mode>-1</auto_capture_mode>
+  <auto_capture_mode>0</auto_capture_mode>
   <build_dir>.</build_dir>
   <code_examen></code_examen>
   <cr>cr</cr>
@@ -40,8 +40,8 @@ Regards.</email_text>
   <filter>latex</filter>
   <filtered_source>DOC-filtered.tex</filtered_source>
   <format_export>ods</format_export>
-  <liste_key></liste_key>
-  <listeetudiants></listeetudiants>
+  <liste_key>nom</liste_key>
+  <listeetudiants>%PROJET/liste_etu_2025-26.csv</listeetudiants>
   <maj_bareme>1</maj_bareme>
   <modele_regroupement></modele_regroupement>
   <moteur_latex_b>pdflatex</moteur_latex_b>
@@ -64,7 +64,7 @@ Regards.</email_text>
   <postcorrect_set_multiple></postcorrect_set_multiple>
   <postcorrect_student>0</postcorrect_student>
   <regroupement_compose></regroupement_compose>
-  <regroupement_copies>ALL</regroupement_copies>
+  <regroupement_copies>SELECTED</regroupement_copies>
   <regroupement_type>STUDENTS</regroupement_type>
   <seuil>0.15</seuil>
   <seuil_up>1</seuil_up>

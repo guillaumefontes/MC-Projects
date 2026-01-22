@@ -74,7 +74,7 @@
 %----------------------------------------------%
 %                   Barème                     %
 %----------------------------------------------% 
-\baremeDefautS{b=6,m=-3,e=0,v=0} % barème questions simples
+\baremeDefautS{b=4,m=-2,e=0,v=0} % barème questions simples
 \baremeDefautM{b=1,m=-0.5,e=0,v=0} % barème questions multiples
 % b = points pour bonne rép
 % m = points pour mauvaise rép
@@ -85,7 +85,7 @@
 
 %------ Pour afficher éventuellement des corrections
 \newif\ifcorrige
-\corrigetrue
+\corrigefalse
 
 
 %----------------------------------------------%
@@ -102,7 +102,7 @@
 \def\AMCformQuestion#1{Question #1 :}
 \def\AMCotextReserved{\emph{Réservé à l'enseignant}} % texte pour les questions ouvertes
 
-\exemplaire{1}{ % nombre de copies différentes
+\exemplaire{55}{ % nombre de copies différentes
 
 %----------------------------------------------%
 %                   En-tête                    %
@@ -110,7 +110,7 @@
 \begin{center}
    {\huge Examen de Programmation Orientée Objet } \\
    \vspace{10pt}
-   Semestre 8 - Département 3EA\\
+   Semestre 7 - Département 3EA\\
    Enseignants : G. Fontès - G. Gateau - J. Regnier \\
    Date: 16 Janvier 2026
 \end{center}
@@ -118,7 +118,7 @@
 
 \begin{center}\fbox{\fbox{\parbox{0.95\textwidth}{
 \begin{itemize}[label=\textbullet,font=\footnotesize, leftmargin=15pt]
-\item En haut à droite de vos feuille : verifiez que le premier des trois numéros soit toujours le même.
+\item En haut à droite de vos feuilles : verifiez que le premier des trois numéros soit toujours le même.
 \item Les réponses aux questions sont à donner EXCLUSIVEMENT sur la feuille de réponses.
 \item Les cases doivent être entièrement noircies avec un stylo noir ou bleu.
 \item En cas d'erreur, appliquer du blanc (mais ne surtout pas redessiner la case).
@@ -206,7 +206,7 @@ Que définissent les méthodes d'un objet ?
 \begin{question}{Question7}
 On considère les notions de classe et d'objet. Quelle est la proposition correcte ?
 	\begin{reponses}
-		\bonne{Une classe est la description d'un ensemble d'objets qui partagent les mêmes objets et méthodes}
+		\bonne{Une classe est la description d'un ensemble d'objets qui partagent les mêmes attributs et méthodes}
 		\mauvaise{Un objet est une abstraction de classe : il définit le concept de classes en général.}
 		\mauvaise{Un objet permet de préciser une conception de classe en définissant explicitement les attributs et les méthodes des classe.}
 		\mauvaise{Une classe est une instanciation d'un objet}
@@ -215,7 +215,7 @@ On considère les notions de classe et d'objet. Quelle est la proposition correc
 
 
 \begin{question}{Question8}
-Considérons une application de gestion de locations de vélos. On souhaite pouvoir modéliser plusieurs types de vélos (vélo de de ville, VTT, vélo enfant) qui possèdent à la fois des propriétés communes et des propriétés particulières à chaque type de vélo. Quelle est la meilleure proposition ?
+Considérons une application de gestion de location de vélos. On souhaite pouvoir modéliser plusieurs types de vélos (vélo de de ville, VTT, vélo enfant) qui possèdent à la fois des propriétés communes et des propriétés particulières à chaque type de vélo. Quelle est la meilleure proposition ?
     \begin{reponses}
         \bonne{On peut créer une classe mère "Vélo" qui contient les propriétés communes et des classes filles "VéloDeVille", "VTT", "VéloEnfant" qui contiennent les propriétés particulières : il s'agit d'un mécanismes d'héritage}
         \mauvaise{On crée une classe "Vélo" pour chaque type de vélo}
@@ -235,11 +235,12 @@ Considérons une application de gestion de locations de vélos. On souhaite pouv
 \end{questionmult}
 
 \begin{questionmult}{Question10}
+En C++, si j’écris \textbf{class LivreNumerique: public Livre :}
     \begin{reponses}
-        \bonne{livre dérive de livre numérique}
-        \mauvaise{livre numerique est une classe fille de livre}
-        \mauvaise{livre numerique est composé d’un livre}
-        \mauvaise{livre numerique hérite de livre}
+        \bonne{\textbf{Livre} dérive de \textbf{LivreNumerique}}
+        \mauvaise{\textbf{LivreNumerique} est une classe fille de \textbf{Livre}}
+        \mauvaise{\textbf{LivreNumerique} est composé d’un \textbf{Livre}}
+        \mauvaise{\textbf{LivreNumerique} hérite de \textbf{Livre}}
     \end{reponses}
 \end{questionmult}
 
@@ -326,9 +327,9 @@ Lequel des programmes principaux ci-dessous proposés utilise correctement la cr
 \end{question}
 
 \begin{question}{Question15}
-On considère le diagramme de classe ci-dessous figure ci-après. Donner la description des classes à implémenter
+On considère le diagramme de classe ci-après figure \ref{fig:diag_classe}. Donner la description des classes à implémenter
 dans un fichier .h. (Il vous est conseillé d’écrire le fichier .h par vous-même avant de choisir la bonne réponse
-et de choisir ensuite une des propositions présentées figure ci-après.
+et de choisir ensuite une des propositions présentées ci-après figure \ref{fig:codes_h}.
     \begin{reponses}
         \mauvaise{code3.h}
         \bonne{code1.h}
@@ -339,21 +340,26 @@ et de choisir ensuite une des propositions présentées figure ci-après.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.5\textwidth]{Figures/diag_classe_vehicule.png}
+	\caption{Diagramme de classe}
+	\label{fig:diag_classe}
 \end{figure}
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.99\textwidth]{Figures/proposition_codes_h.png}
+	\caption{Propositions de codes .h}
+	\label{fig:codes_h}
 \end{figure}
 
 
 \begin{question}{Question16}
-On souhaite développer un logiciel simple permettant de gérer une bibliothèque universitaire. La bibliothèque met à disposition des documents qui pourront être empruntés.
-La "Bibliothèque" est caractérisée par un nom et une collection de documents.
-Un "Document" possède un identifiant, un titre, une année de publication.
-Il existe plusieurs types de documents : un "Livre" (caractérisé par un nombre de pages), une "Revue" (caractérisée par un numéro et une périodicité) et un "DVD" (caractérisé par une durée en minutes).
+On souhaite développer un logiciel simple permettant de gérer une bibliothèque universitaire. La bibliothèque met à disposition des documents qui pourront être empruntés.\\
+La "Bibliothèque" est caractérisée par un nom et une collection de documents.\\
+Un "Document" possède un identifiant, un titre, une année de publication.\\
+Il existe plusieurs types de documents : un "Livre" (caractérisé par un nombre de pages), une "Revue" (caractérisée par un numéro et une périodicité) et un "DVD" (caractérisé par une durée en minutes).\\
+
 D’après les descriptions précédentes, donner le diagramme de classe UML (sur la feuille réponse) pour cette future application logicielle. Vous représenterez les classes et les différentes relations possibles (héritage, composition, association...).
-\AMCOpen{lines=1, dots=false, lineheight=18cm}{\mauvaise[F]{F}\bareme{0}\mauvaise[P]{P}\bareme{1}\mauvaise[B]{B}\bareme{2}\bonne[TB]{TB}\bareme{3}}
+\AMCOpen{lines=1, dots=false, lineheight=18cm}{\mauvaise[F]{F}\bareme{0}\mauvaise[P]{P}\bareme{1}\mauvaise[B]{B}\bareme{3}\bonne[TB]{TB}\bareme{4}}
 \def\AMCotextGoto{\par{\bf\emph{Répondez sur la feuille de réponses.}}}
 \end{question}
 
